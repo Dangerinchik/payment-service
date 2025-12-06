@@ -5,5 +5,5 @@
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <include file="V1.0/20251204_init_collections.xml"  relativeToChangelogFile="true"/>
-
+    <include file="V1.0/20251206_update_payment_amount_type.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
