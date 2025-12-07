@@ -3,3 +3,7 @@ spring:
     name: payment-service
   mongodb:
     uri: ${MONGO_URL}
+
+external-api:
+  random:
+    url: "https://www.random.org/integers/"
