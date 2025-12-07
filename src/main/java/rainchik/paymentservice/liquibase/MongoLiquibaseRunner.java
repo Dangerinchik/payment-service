@@ -21,13 +21,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class MongoLiquibaseRunner implements ApplicationRunner {
 
-    @Value("${MONGO_URL}")
+    @Value("${MONGO_URL:mongodb://localhost:27017/test-db}")
     private String url;
 
-    @Value("${MONGO_USERNAME}")
+    @Value("${MONGO_USERNAME:dsf}")
     private String username;
 
-    @Value("${MONGO_PASSWORD}")
+    @Value("${MONGO_PASSWORD:1234}")
     private String password;
 
     private String changeLog = "db/changelog/db.changelog-master.xml";

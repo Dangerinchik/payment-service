@@ -12,7 +12,7 @@ import tools.jackson.databind.json.JsonMapper;
 public class KafkaCreatePaymentTemplateConfig {
 
     @Bean
-    JacksonJsonMessageConverter jsonMessageConverter(@Qualifier("producer") JsonMapper jsonMapper) {
+    JacksonJsonMessageConverter jsonMessageConverter(JsonMapper jsonMapper) {
 
         return new StringJacksonJsonMessageConverter(jsonMapper);
 

@@ -15,8 +15,8 @@ import org.springframework.kafka.support.converter.StringJacksonJsonMessageConve
 public class KafkaCreateOrderConfiguration {
 
     @Bean
-    JacksonJsonMessageConverter jacksonJsonMessageConverter(@Qualifier("consumer") JsonMapper jsonMapper) {
-        JacksonJsonMessageConverter messageConverter = new StringJacksonJsonMessageConverter(jsonMapper);
+    JacksonJsonMessageConverter jacksonJsonMessageConverter(@Qualifier("consumer") JsonMapper consumerjsonMapper) {
+        JacksonJsonMessageConverter messageConverter = new StringJacksonJsonMessageConverter(consumerjsonMapper);
 
         JacksonJavaTypeMapper typeMapper = new DefaultJacksonJavaTypeMapper();
         typeMapper.addTrustedPackages("rainchik.paymentservice.dto");
