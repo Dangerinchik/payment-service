@@ -1,1 +1,9 @@
-spring.application.name=payment-service
+spring:
+  application:
+    name: payment-service
+  mongodb:
+    uri: ${MONGO_URL}
+
+external-api:
+  random:
+    url: "https://www.random.org/integers/"
