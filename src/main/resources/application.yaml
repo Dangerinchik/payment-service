@@ -1,1 +1,26 @@
-spring.application.name=payment-service
+spring:
+  application:
+    name: payment-service
+  mongodb:
+    uri: ${MONGO_URL}
+  kafka:
+    template:
+      default-topic: create-payment-topic
+    producer:
+      bootstrap-servers: localhost:19092
+    consumer:
+      bootstrap-servers: localhost:19092
+      enable-auto-commit: false
+      group-id: "create-order-group"
+      auto-offset-reset: latest
+      client-id: "1"
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: count_time
+      ack-count: 20
+      ack-time: 5s
+      concurrency: 3
+
+external-api:
+  random:
+    url: "https://www.random.org/integers/"
