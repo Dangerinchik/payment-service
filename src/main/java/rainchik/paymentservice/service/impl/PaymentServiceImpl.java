@@ -1,6 +1,10 @@
 package rainchik.paymentservice.service.impl;
 
+import org.apache.kafka.common.metrics.Stat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rainchik.paymentservice.dto.PaymentDTO;
@@ -15,19 +19,22 @@ import rainchik.paymentservice.service.RandomService;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
-    private PaymentRepository paymentRepository;
-    private RandomService randomService;
-    private PaymentMapper paymentMapper;
+    private final PaymentRepository paymentRepository;
+    private final RandomService randomService;
+    private final PaymentMapper paymentMapper;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     @Autowired
-    public PaymentServiceImpl(PaymentRepository paymentRepository, RandomService randomService, PaymentMapper paymentMapper) {
+    public PaymentServiceImpl(PaymentRepository paymentRepository, RandomService randomService, PaymentMapper paymentMapper, KafkaTemplate<String, Object> kafkaTemplate) {
         this.paymentRepository = paymentRepository;
         this.randomService = randomService;
         this.paymentMapper = paymentMapper;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
@@ -35,7 +42,10 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentResponseDTO createPayment(PaymentDTO dto) {
         Payment payment = paymentMapper.toPayment(dto);
         payment.setStatus(randomService.processPayment().name());
-        return paymentMapper.toPaymentDTO(paymentRepository.save(payment));
+        PaymentResponseDTO response = paymentMapper.toPaymentDTO(paymentRepository.save(payment));
+        Message<PaymentResponseDTO> message = MessageBuilder.withPayload(response).build();
+        kafkaTemplate.send(message);
+        return response;
     }
 
     @Override
