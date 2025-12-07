@@ -2,7 +2,7 @@ spring:
   application:
     name: payment-service
   mongodb:
-    uri: ${MONGO_URL}
+    uri: mongodb://localhost:27017/test-db
   kafka:
     template:
       default-topic: create-payment-topic
