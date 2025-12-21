@@ -24,3 +24,20 @@ spring:
 external-api:
   random:
     url: "https://www.random.org/integers/"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  tracing:
+    sampling:
+      probability: 1.0
+
+otel:
+  exporter:
+    otlp:
+      endpoint: http://host.docker.internal:4317
+  resource:
+    attributes:
+      service.name: ${spring.application.name}
